@@ -1,21 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sign-In</title>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sign-In Example</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-    <!-- Google Sign-In Button -->
-    <div id="g_id_onload"
-        data-client_id="587236801612-gjlikb8519jiavu0rak7f4vhouohkrfi.apps.googleusercontent.com"
-        data-login_uri="https://gue-honio.github.io/node-js-git/oauth2callback"
-        data-auto_prompt="false">
-    </div>
+  <h1>Welcome to My Website</h1>
 
-    <div class="g_id_signin" data-type="standard"></div>
+  <!-- Google Sign-In Button -->
+  <div id="google-signin-button"></div>
 
-    <script src="script.js"></script>  <!-- Link to your custom JavaScript -->
+  <script>
+    const CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';  // Replace with your actual Client ID
+
+    // Initialize Google Sign-In
+    function initGoogleSignIn() {
+      google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("google-signin-button"),
+        { theme: "outline", size: "large" }  // Customize appearance
+      );
+    }
+
+    // Handle the response after successful login
+    function handleCredentialResponse(response) {
+      const id_token = response.credential;  // Get the ID token
+
+      // Fetch user information using the ID token
+      fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + id_token)
+        .then(response => response.json())
+        .then(data => {
+          alert('Logged in as: ' + data.name);  // Display user info
+        })
+        .catch(error => {
+          console.error('Error fetching user info:', error);
+        });
+    }
+
+    window.onload = function () {
+      initGoogleSignIn();
+    };
+  </script>
 </body>
 </html>
