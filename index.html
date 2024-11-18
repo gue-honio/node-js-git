@@ -2,64 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sign-In Example</title>
+  <title>Google Sign-In</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <h1>Welcome to My Website</h1>
 
- 
-  <script>
-    const CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';  
-    
-    function initGoogleSignIn() {
-      google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: handleCredentialResponse
-      });
-
-     
-      google.accounts.id.prompt();
-    }
-
-    
-    function handleCredentialResponse(response) {
-      const id_token = response.credential; 
-
-     
-      fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + id_token)
-        .then(response => response.json())
-        .then(data => {
-          alert('Logged in as: ' + data.name);  
-        })
-        .catch(error => {
-          console.error('Error fetching user info:', error);
-        });
-    }
-
-    window.onload = function () {
-      initGoogleSignIn();  
-    };
-  </script>
-</body>
-</html>
--scale=1.0">
-  <title>Google Sign-In Example</title>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-</head>
-<body>
-  <h1>Welcome to My Website</h1>
-
-  <!-- Google Sign-In Button -->
-  <div id="google-signin-button"></div>
+  <!-- You no longer need a button, the sign-in will be triggered automatically -->
 
   <script>
-    const CLIENT_ID = '587236801612-gjlikb8519jiavu0rak7f4vhouohkrfi.apps.googleusercontent.com';  // Replace with your actual Client ID
+    const CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';  // Replace with your actual Client ID
 
     // Initialize Google Sign-In
     function initGoogleSignIn() {
@@ -68,10 +21,8 @@
         callback: handleCredentialResponse
       });
 
-      google.accounts.id.renderButton(
-        document.getElementById("google-signin-button"),
-        { theme: "outline", size: "large" }  // Customize appearance
-      );
+      // Automatically prompt for sign-in as soon as the page loads
+      google.accounts.id.prompt();
     }
 
     // Handle the response after successful login
@@ -90,7 +41,7 @@
     }
 
     window.onload = function () {
-      initGoogleSignIn();
+      initGoogleSignIn();  // Initialize Google Sign-In as soon as the page loads
     };
   </script>
 </body>
