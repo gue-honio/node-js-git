@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+
+#header {
+    font-size: 3rem;
+    color: #333;
+    text-align: center;
+}
+
+#email-display {
+    font-size: 2rem;
+    color: #555;
+    text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+    #header, #email-display {
+        font-size: 1.5rem;
+    }
+}
