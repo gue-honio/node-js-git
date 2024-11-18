@@ -3,16 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Sign-In</title>
+  <title>Google Sign-In Example</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+      overflow: hidden;
+      transition: background 0.5s ease;
+    }
+
+    /* Fullscreen background blur */
+    #blur-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);  /* Blur effect */
+      transition: backdrop-filter 0.3s ease-in-out;
+      z-index: -1;  /* Keep it in the background */
+    }
+
+    /* Main container */
+    .content-container {
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    /* Google sign-in button styling */
+    .google-signin-container {
+      z-index: 2;
+    }
+
+    .google-signin-container button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .google-signin-container button:hover {
+      background-color: #357ae8;
+    }
+
+    /* Mobile-first design */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;  /* Slightly smaller heading on mobile */
+      }
+
+      .google-signin-container button {
+        padding: 10px 20px;  /* Adjust button size for mobile */
+      }
+    }
+  </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <h1>Welcome to My Website</h1>
-
-  <!-- You no longer need a button, the sign-in will be triggered automatically -->
+  <div id="blur-background"></div> <!-- Background blur -->
+  <div class="content-container">
+    <h1>Welcome to My Website</h1>
+    <div class="google-signin-container">
+      <!-- The Google sign-in button will be automatically displayed after the page loads -->
+    </div>
+  </div>
 
   <script>
-    const CLIENT_ID = '587236801612-gjlikb8519jiavu0rak7f4vhouohkrfi.apps.googleusercontent.com';  // Replace with your actual Client ID
+    const CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';  // Replace with your actual Client ID
 
     // Initialize Google Sign-In
     function initGoogleSignIn() {
@@ -28,6 +108,9 @@
     // Handle the response after successful login
     function handleCredentialResponse(response) {
       const id_token = response.credential;  // Get the ID token
+
+      // Remove the background blur after sign-in
+      document.getElementById('blur-background').style.display = 'none';
 
       // Fetch user information using the ID token
       fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + id_token)
