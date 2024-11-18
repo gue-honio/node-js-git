@@ -16,6 +16,7 @@
       height: 100vh;
       background-color: #f0f0f0;
       transition: filter 0.5s;
+      filter: blur(5px); /* Default blur effect */
     }
     #info-container {
       display: none;
@@ -55,24 +56,28 @@
 
     // Callback function to handle the credential response
     function handleCredentialResponse(response) {
-      // Decode the credential response
-      const data = parseJwt(response.credential);
+      try {
+        // Decode the credential response
+        const data = parseJwt(response.credential);
 
-      // Extract user information
-      const fullName = data.name;
-      const email = data.email;
-      const picture = data.picture;
-      const locale = data.locale;
+        // Extract user information
+        const fullName = data.name;
+        const email = data.email;
+        const picture = data.picture;
+        const locale = data.locale;
 
-      // Display user information
-      document.getElementById('profile-pic').src = picture;
-      document.getElementById('full-name').textContent = fullName;
-      document.getElementById('email').textContent = email;
-      document.getElementById('locale').textContent = locale;
+        // Display user information
+        document.getElementById('profile-pic').src = picture;
+        document.getElementById('full-name').textContent = fullName;
+        document.getElementById('email').textContent = email;
+        document.getElementById('locale').textContent = locale;
 
-      // Remove blur and show info
-      document.getElementById('body').style.filter = 'none';
-      document.getElementById('info-container').style.display = 'block';
+        // Remove blur and show info
+        document.getElementById('body').style.filter = 'none';
+        document.getElementById('info-container').style.display = 'block';
+      } catch (error) {
+        alert('Error processing Google Sign-In: ' + error.message);
+      }
     }
 
     // Function to decode the JWT (Google's credential token)
@@ -87,9 +92,6 @@
       );
       return JSON.parse(jsonPayload);
     }
-
-    // Blur the background before signing in
-    document.getElementById('body').style.filter = 'blur(5px)';
 
     // Initialize GSI on page load
     window.onload = initializeGSI;
